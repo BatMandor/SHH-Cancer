@@ -26,10 +26,9 @@ def apply_mutation_to_gene(ref_seq, mutation):
         #It seems that the reference gene nucleotide is not matching with the initial nucleotide according to the excel file
         if position < len(ref_seq) and ref_seq[position] == initial_nuc:
             modified_seq = ref_seq[:position] + new_nuc + ref_seq[position+1:]
-            # print('here')
             return modified_seq
         else:
-            # print('there')
+            # print('expected gene not present at position')
             return ref_seq
     else:
         # Return original sequence for complex mutations

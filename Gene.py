@@ -22,7 +22,7 @@ def apply_mutation_to_gene(ref_seq, mutation):
     if mutation_match:
         initial_nuc, position, new_nuc = mutation_match.groups()
         position = int(position) - 1  # Convert so 0 index is the first position
-        # print(mutation_match.groups())
+        print(mutation_match.groups())
         #It seems that the reference gene nucleotide is not matching with the initial nucleotide according to the excel file
         if position < len(ref_seq) and ref_seq[position] == initial_nuc:
             modified_seq = ref_seq[:position] + new_nuc + ref_seq[position+1:]
@@ -30,6 +30,7 @@ def apply_mutation_to_gene(ref_seq, mutation):
         else:
             # print('expected gene not present at position')
             return ref_seq
+        
     else:
         # Return original sequence for complex mutations
         return ref_seq
@@ -50,8 +51,8 @@ new_data_cleaned['Modified Gene Sequence'] = modified_gene_sequences
 gene_data = new_data_cleaned
 
 print(gene_data.shape)
-# print(gene_data['Modified Gene Sequence'])
+print(gene_data['Modified Gene Sequence'])
 # for mutated in gene_data['Modified Gene Sequence']:
-#     print(mutated == reference_gene_sequence)
+#     print(mutated == amino_acids)
 
 # %%

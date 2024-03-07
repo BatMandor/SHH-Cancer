@@ -34,44 +34,12 @@ def apply_mutation_to_gene(ref_seq, mutation):
         # Return original sequence for complex mutations
         return ref_seq
 
-# def dna_to_amino_acids(dna_sequence):
-#     # Define the genetic code
-#     genetic_code = {
-#         'ATA':'I', 'ATC':'I', 'ATT':'I', 'ATG':'M',
-#         'ACA':'T', 'ACC':'T', 'ACG':'T', 'ACT':'T',
-#         'AAC':'N', 'AAT':'N', 'AAA':'K', 'AAG':'K',
-#         'AGC':'S', 'AGT':'S', 'AGA':'R', 'AGG':'R',                 
-#         'CTA':'L', 'CTC':'L', 'CTG':'L', 'CTT':'L',
-#         'CCA':'P', 'CCC':'P', 'CCG':'P', 'CCT':'P',
-#         'CAC':'H', 'CAT':'H', 'CAA':'Q', 'CAG':'Q',
-#         'CGA':'R', 'CGC':'R', 'CGG':'R', 'CGT':'R',
-#         'GTA':'V', 'GTC':'V', 'GTG':'V', 'GTT':'V',
-#         'GCA':'A', 'GCC':'A', 'GCG':'A', 'GCT':'A',
-#         'GAC':'D', 'GAT':'D', 'GAA':'E', 'GAG':'E',
-#         'GGA':'G', 'GGC':'G', 'GGG':'G', 'GGT':'G',
-#         'TCA':'S', 'TCC':'S', 'TCG':'S', 'TCT':'S',
-#         'TTC':'F', 'TTT':'F', 'TTA':'L', 'TTG':'L',
-#         'TAC':'Y', 'TAT':'Y', 'TAA':'_', 'TAG':'_',
-#         'TGC':'C', 'TGT':'C', 'TGA':'_', 'TGG':'W',
-#     }
-
-#     # Convert the DNA sequence to uppercase
-#     dna_sequence = dna_sequence.upper()
-
-#     # Group the sequence into codons
-#     codons = [dna_sequence[i:i+3] for i in range(0, len(dna_sequence), 3) if len(dna_sequence[i:i+3]) == 3]
-
-#     # Convert codons to amino acids
-#     amino_acids = ''.join([genetic_code[codon] for codon in codons if codon in genetic_code])
-
-#     return amino_acids
 
 
 
 #%%
 #Parse the protein changes and apply them to the reference gene sequence
-# amino_acids = dna_to_amino_acids("")
-amino_acids = 
+amino_acids = "MLLLARCLLLVLVSSLLVCSGLACGPGRGFGKRRHPKKLTPLAYKQFIPNVAEKTLGASGRYEGKISRNSERFKELTPNYNPDIIFKDEENTGADRLMTQRCKDKLNALAISVMNQWPGVKLRVTEGWDEDGHHSEESLHYEGRAVDITTSDRDRSKYGMLARLAVEAGFDWVYYESKAHIHCSVKAENSVAAKSGGCFPGSATVHLEQGGTKLVKDLSPGDRVLAADDQGRLLYSDFLTFLDRDDGAKKVFYVIETREPRERLLLTAAHLLFVAPHNDSATGEPEASSGSGPPSGGALGPRALFASRVRPGQRVYVVAERDGDRRLLPAAVHSVTLSEEAAGAYAPLTAQGTILINRVLASCYAVIEEHSWAHRAFAPFRLAHALLAALAPARTDRGGDSGGGDRGGGGGRVALTAPGAADAPGAGATAGIHWYSQLLYQIGTWLLDSEALHPLGMAVKSS"
 print(amino_acids)
 protein_changes = new_data_cleaned.iloc[:, 3].fillna('')  # 4th column for protein changes
 modified_gene_sequences = [apply_mutation_to_gene(amino_acids, change) for change in protein_changes]

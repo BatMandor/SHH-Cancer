@@ -5,13 +5,13 @@ from Bio import SeqIO
 from lifelines import CoxPHFitter
 
 #%%
-#Reference gene
-gene_file_path = './gene.fna'
-for seq_record in SeqIO.parse(gene_file_path, "fasta"):
-    reference_gene_sequence = str(seq_record.seq)
-print(reference_gene_sequence)
+# #Reference gene
+# gene_file_path = './gene.fna'
+# for seq_record in SeqIO.parse(gene_file_path, "fasta"):
+#     reference_gene_sequence = str(seq_record.seq)
+# print(reference_gene_sequence)
 #Mutation data
-new_file_path = './variables_adult.xlsx'
+new_file_path = './mutated_dataset.xlsx'
 new_data = pd.read_excel(new_file_path, header=0)
 new_data_cleaned = new_data.dropna(axis=1, how='all')
 
@@ -43,7 +43,7 @@ def apply_mutation_to_gene(ref_seq, mutation):
 #Parse the protein changes and apply them to the reference gene sequence
 amino_acids = "MLLLARCLLLVLVSSLLVCSGLACGPGRGFGKRRHPKKLTPLAYKQFIPNVAEKTLGASGRYEGKISRNSERFKELTPNYNPDIIFKDEENTGADRLMTQRCKDKLNALAISVMNQWPGVKLRVTEGWDEDGHHSEESLHYEGRAVDITTSDRDRSKYGMLARLAVEAGFDWVYYESKAHIHCSVKAENSVAAKSGGCFPGSATVHLEQGGTKLVKDLSPGDRVLAADDQGRLLYSDFLTFLDRDDGAKKVFYVIETREPRERLLLTAAHLLFVAPHNDSATGEPEASSGSGPPSGGALGPRALFASRVRPGQRVYVVAERDGDRRLLPAAVHSVTLSEEAAGAYAPLTAQGTILINRVLASCYAVIEEHSWAHRAFAPFRLAHALLAALAPARTDRGGDSGGGDRGGGGGRVALTAPGAADAPGAGATAGIHWYSQLLYQIGTWLLDSEALHPLGMAVKSS"
 print(amino_acids)
-protein_changes = new_data_cleaned.iloc[:, 3].fillna('')  # 4th column for protein changes
+protein_changes = new_data_cleaned.iloc[:, 1].fillna('')  # 2nd column for protein changes
 modified_gene_sequences = [apply_mutation_to_gene(amino_acids, change) for change in protein_changes]
 
 #Add the modified sequences as a new column in the DataFrame
@@ -57,9 +57,8 @@ print(gene_data['Modified Gene Sequence'])
 
 # %%
 
-# Encode categorical variables, assuming columns like 'Sex', 'Somatic Status', 'Ethnicity Category' exist
+# Encode categorical variables, like 'Sex', 'Ethnicity Category' exist
 gene_data['Sex'] = gene_data['Sex'].astype('category').cat.codes
-gene_data['Somatic Status'] = gene_data['Somatic Status'].astype('category').cat.codes
 gene_data['Ethnicity Category'] = gene_data['Ethnicity Category'].astype('category').cat.codes
 
 #feature: count of a specific amino acid, say 'A'
@@ -75,11 +74,14 @@ gene_data['Amino Acid A Count'] = gene_data['Modified Gene Sequence'].apply(lamb
 # Define the Cox Proportional Hazards model
 cph = CoxPHFitter()
 
-# Fit the model to the data
-# Replace 'Overall Survival (Months)' and 'Overall Survival Status' with your actual column names for duration and event
-cph.fit(data, duration_col='Overall Survival (Months)', event_col='Overall Survival Status')
+# Fit the model to the data using the correct column names
+cph.fit(gene_data, duration_col='Overall_Survival_Months', event_col='Event_Status')
 
-# Display the summary of the model to check the significance of features
+# Display the summary of the model
 cph.print_summary()
 
+# Evaluate the model using concordance index
+c_index = cph.concordance_index_
+print(f'Concordance Index: {c_index}')
 
+# %%

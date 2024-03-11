@@ -5,12 +5,7 @@ from Bio import SeqIO
 from lifelines import CoxPHFitter
 
 #%%
-# #Reference gene
-# gene_file_path = './gene.fna'
-# for seq_record in SeqIO.parse(gene_file_path, "fasta"):
-#     reference_gene_sequence = str(seq_record.seq)
-# print(reference_gene_sequence)
-#Mutation data
+
 new_file_path = './mutated_dataset.xlsx'
 new_data = pd.read_excel(new_file_path, header=0)
 new_data_cleaned = new_data.dropna(axis=1, how='all')
@@ -18,7 +13,6 @@ new_data_cleaned = new_data.dropna(axis=1, how='all')
 #%%
 # Function to apply mutations to the reference gene sequence
 def apply_mutation_to_gene(ref_seq, mutation):
-    # Regular expression to parse the mutation format (e.g., A123C)
     mutation_match = re.match(r'([A-Z])(\d+)([A-Z])$', mutation)
     if mutation_match:
         initial_nuc, position, new_nuc = mutation_match.groups()
@@ -36,9 +30,6 @@ def apply_mutation_to_gene(ref_seq, mutation):
         # Return original sequence for complex mutations
         return ref_seq
 
-
-
-
 #%%
 #Parse the protein changes and apply them to the reference gene sequence
 amino_acids = "MLLLARCLLLVLVSSLLVCSGLACGPGRGFGKRRHPKKLTPLAYKQFIPNVAEKTLGASGRYEGKISRNSERFKELTPNYNPDIIFKDEENTGADRLMTQRCKDKLNALAISVMNQWPGVKLRVTEGWDEDGHHSEESLHYEGRAVDITTSDRDRSKYGMLARLAVEAGFDWVYYESKAHIHCSVKAENSVAAKSGGCFPGSATVHLEQGGTKLVKDLSPGDRVLAADDQGRLLYSDFLTFLDRDDGAKKVFYVIETREPRERLLLTAAHLLFVAPHNDSATGEPEASSGSGPPSGGALGPRALFASRVRPGQRVYVVAERDGDRRLLPAAVHSVTLSEEAAGAYAPLTAQGTILINRVLASCYAVIEEHSWAHRAFAPFRLAHALLAALAPARTDRGGDSGGGDRGGGGGRVALTAPGAADAPGAGATAGIHWYSQLLYQIGTWLLDSEALHPLGMAVKSS"
@@ -52,36 +43,7 @@ gene_data = new_data_cleaned
 
 print(gene_data.shape)
 print(gene_data['Modified Gene Sequence'])
-# for mutated in gene_data['Modified Gene Sequence']:
-#     print(mutated == amino_acids)
+
 
 # %%
 
-# Encode categorical variables, like 'Sex', 'Ethnicity Category' exist
-gene_data['Sex'] = gene_data['Sex'].astype('category').cat.codes
-gene_data['Ethnicity Category'] = gene_data['Ethnicity Category'].astype('category').cat.codes
-
-#feature: count of a specific amino acid, say 'A'
-gene_data['Amino Acid A Count'] = gene_data['Modified Gene Sequence'].apply(lambda x: x.count('A'))
-
-#feature: length of the modified gene sequence
-gene_data['Modified Seq Length'] = gene_data['Modified Gene Sequence'].apply(len)
-
-#feature: count of a specific amino acid, say 'A'
-gene_data['Amino Acid A Count'] = gene_data['Modified Gene Sequence'].apply(lambda x: x.count('A'))
-
-
-# Define the Cox Proportional Hazards model
-cph = CoxPHFitter()
-
-# Fit the model to the data using the correct column names
-cph.fit(gene_data, duration_col='Overall_Survival_Months', event_col='Event_Status')
-
-# Display the summary of the model
-cph.print_summary()
-
-# Evaluate the model using concordance index
-c_index = cph.concordance_index_
-print(f'Concordance Index: {c_index}')
-
-# %%

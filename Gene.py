@@ -2,6 +2,7 @@
 import pandas as pd
 import re
 from Bio import SeqIO
+from lifelines import CoxPHFitter
 
 #%%
 #Reference gene
@@ -55,3 +56,30 @@ print(gene_data['Modified Gene Sequence'])
 #     print(mutated == amino_acids)
 
 # %%
+
+# Encode categorical variables, assuming columns like 'Sex', 'Somatic Status', 'Ethnicity Category' exist
+gene_data['Sex'] = gene_data['Sex'].astype('category').cat.codes
+gene_data['Somatic Status'] = gene_data['Somatic Status'].astype('category').cat.codes
+gene_data['Ethnicity Category'] = gene_data['Ethnicity Category'].astype('category').cat.codes
+
+#feature: count of a specific amino acid, say 'A'
+gene_data['Amino Acid A Count'] = gene_data['Modified Gene Sequence'].apply(lambda x: x.count('A'))
+
+#feature: length of the modified gene sequence
+gene_data['Modified Seq Length'] = gene_data['Modified Gene Sequence'].apply(len)
+
+#feature: count of a specific amino acid, say 'A'
+gene_data['Amino Acid A Count'] = gene_data['Modified Gene Sequence'].apply(lambda x: x.count('A'))
+
+
+# Define the Cox Proportional Hazards model
+cph = CoxPHFitter()
+
+# Fit the model to the data
+# Replace 'Overall Survival (Months)' and 'Overall Survival Status' with your actual column names for duration and event
+cph.fit(data, duration_col='Overall Survival (Months)', event_col='Overall Survival Status')
+
+# Display the summary of the model to check the significance of features
+cph.print_summary()
+
+

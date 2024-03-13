@@ -1,7 +1,7 @@
 
 import pandas as pd
 from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
 from sklearn.metrics import accuracy_score, mean_squared_error, confusion_matrix, r2_score
 from sklearn.preprocessing import OneHotEncoder
 import numpy as np
@@ -21,7 +21,7 @@ def apply_mutation_to_gene(ref_seq, mutation):
     if mutation_match:
         initial_nuc, position, new_nuc = mutation_match.groups()
         position = int(position) - 1  # Convert so 0 index is the first position
-        print(mutation_match.groups())
+        #print(mutation_match.groups())
         #It seems that the reference gene nucleotide is not matching with the initial nucleotide according to the excel file
         if position < len(ref_seq) and ref_seq[position] == initial_nuc:
             modified_seq = ref_seq[:position] + new_nuc + ref_seq[position+1:]
@@ -72,8 +72,10 @@ def extract_position(protein_change):
 combined_data['Protein Change Position'] = combined_data['Protein Change'].apply(extract_position)
 
 # One-hot encoding for categorical columns
-categorical_columns = ['Mutation Type', 'Sex', 'Somatic Status', 'Ethnicity Category', 'Race Category']
+categorical_columns = ['Mutation Type', 'Sex', 'Ethnicity Category', 'Race Category']
 combined_data = pd.get_dummies(combined_data, columns=categorical_columns)
+# for i in categorical_columns:
+#     combined_data[i] = pd.get_dummies(combined_data[i], prefix=i)
 
 # Drop rows where 'Overall Survival (Months)' is NaN before defining X and y
 combined_data = combined_data.dropna(subset=['Overall Survival (Months)'])

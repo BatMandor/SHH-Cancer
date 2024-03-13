@@ -1,20 +1,20 @@
-#%%
+
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import accuracy_score, mean_squared_error, confusion_matrix
+from sklearn.metrics import accuracy_score, mean_squared_error, confusion_matrix, r2_score
 from sklearn.preprocessing import OneHotEncoder
 import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
+import re
 
-#%%
 
 new_file_path = './mutated_dataset.xlsx'
 new_data = pd.read_excel(new_file_path, header=0)
 new_data_cleaned = new_data.dropna(axis=1, how='all')
 
-#%%
+
 # Function to apply mutations to the reference gene sequence
 def apply_mutation_to_gene(ref_seq, mutation):
     mutation_match = re.match(r'([A-Z])(\d+)([A-Z])$', mutation)
@@ -34,10 +34,8 @@ def apply_mutation_to_gene(ref_seq, mutation):
         # Return original sequence for complex mutations
         return ref_seq
 
-#%%
 #Parse the protein changes and apply them to the reference gene sequence
 amino_acids = "MLLLARCLLLVLVSSLLVCSGLACGPGRGFGKRRHPKKLTPLAYKQFIPNVAEKTLGASGRYEGKISRNSERFKELTPNYNPDIIFKDEENTGADRLMTQRCKDKLNALAISVMNQWPGVKLRVTEGWDEDGHHSEESLHYEGRAVDITTSDRDRSKYGMLARLAVEAGFDWVYYESKAHIHCSVKAENSVAAKSGGCFPGSATVHLEQGGTKLVKDLSPGDRVLAADDQGRLLYSDFLTFLDRDDGAKKVFYVIETREPRERLLLTAAHLLFVAPHNDSATGEPEASSGSGPPSGGALGPRALFASRVRPGQRVYVVAERDGDRRLLPAAVHSVTLSEEAAGAYAPLTAQGTILINRVLASCYAVIEEHSWAHRAFAPFRLAHALLAALAPARTDRGGDSGGGDRGGGGGRVALTAPGAADAPGAGATAGIHWYSQLLYQIGTWLLDSEALHPLGMAVKSS"
-print(amino_acids)
 protein_changes = new_data_cleaned.iloc[:, 1].fillna('')  # 2nd column for protein changes
 modified_gene_sequences = [apply_mutation_to_gene(amino_acids, change) for change in protein_changes]
 
@@ -45,19 +43,8 @@ modified_gene_sequences = [apply_mutation_to_gene(amino_acids, change) for chang
 new_data_cleaned['Modified Gene Sequence'] = modified_gene_sequences
 gene_data = new_data_cleaned
 
-print(gene_data.shape)
-print(gene_data['Modified Gene Sequence'])
-
-
-# %%
-import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.metrics import mean_squared_error, r2_score
-import re
-import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
+# print(gene_data.shape)
+# print(gene_data['Modified Gene Sequence'])
 
 # Load the datasets
 mutated_file_path = './mutated_dataset.xlsx'
@@ -108,8 +95,8 @@ rf.fit(X_train, y_train)
 y_pred = rf.predict(X_test)
 mse = mean_squared_error(y_test, y_pred)
 r2 = r2_score(y_test, y_pred)
-print(f'Mean Squared Error: {mse}')
-print(f'R-squared: {r2}')
+# print(f'Mean Squared Error: {mse}')
+# print(f'R-squared: {r2}')
 
 # Feature Importances
 feature_importances = pd.Series(rf.feature_importances_, index=X.columns).sort_values(ascending=False)
@@ -130,4 +117,3 @@ plt.title('Actual vs. Predicted Survival Months')
 plt.show()
 
 
-# %%

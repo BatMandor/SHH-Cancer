@@ -74,19 +74,14 @@ combined_data['Protein Change Position'] = combined_data['Protein Change'].apply
 # One-hot encoding for categorical columns
 categorical_columns = ['Mutation Type', 'Sex', 'Ethnicity Category', 'Race Category']
 combined_data = pd.get_dummies(combined_data, columns=categorical_columns)
-# for i in categorical_columns:
-#     combined_data[i] = pd.get_dummies(combined_data[i], prefix=i)
 
 # Drop rows where 'Overall Survival (Months)' is NaN before defining X and y
 combined_data = combined_data.dropna(subset=['Overall Survival (Months)'])
 
-features_to_exclude = ['Sample ID', 'Protein Change', 
-                       'Disease Free (Months)', 'Fraction Genome Altered', 'Progress Free Survival (Months)', 
-                       'Progression Free Status', 'Mutation Count',
-                       'Fraction Genome Altered', 'Start Pos', 'End Pos', 'Ref', 'Var', 
-                       'Genetic Ancestry Label'] 
+features_to_exclude = ['Sample ID', 'Protein Change', 'Protein Change Position'] 
  # Update or add to this list as necessary
 X = combined_data.drop(features_to_exclude + ['Overall Survival (Months)', 'Overall Survival Status'], axis=1)
+X_sex = combined_data['Male', 'Female']
 y = combined_data['Overall Survival (Months)']
 
 # Split, train, and evaluate the model as before

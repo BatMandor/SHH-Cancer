@@ -78,10 +78,13 @@ combined_data = pd.get_dummies(combined_data, columns=categorical_columns)
 # Drop rows where 'Overall Survival (Months)' is NaN before defining X and y
 combined_data = combined_data.dropna(subset=['Overall Survival (Months)'])
 
+#Dataset only containing mutation locations
+mutation_loc_data = pd.get_dummies(combined_data['Protein Change Position'])
+
 features_to_exclude = ['Sample ID', 'Protein Change', 'Protein Change Position'] 
  # Update or add to this list as necessary
-X = combined_data.drop(features_to_exclude + ['Overall Survival (Months)', 'Overall Survival Status'], axis=1)
-X_sex = combined_data['Male', 'Female']
+# X = combined_data.drop(features_to_exclude + ['Overall Survival (Months)', 'Overall Survival Status'], axis=1)
+X = mutation_loc_data
 y = combined_data['Overall Survival (Months)']
 
 # Split, train, and evaluate the model as before
@@ -98,10 +101,10 @@ r2 = r2_score(y_test, y_pred)
 # Feature Importances
 feature_importances = pd.Series(rf.feature_importances_, index=X.columns).sort_values(ascending=False)
 plt.figure(figsize=(10, 6))
-sns.barplot(x=feature_importances.head(10), y=feature_importances.head(10).index)
+sns.barplot(y=feature_importances.head(10), x=feature_importances.head(10).index)
 plt.title('Top 10 Feature Importances')
-plt.xlabel('Relative Importance')
-plt.ylabel('Features')
+plt.ylabel('Relative Importance')
+plt.xlabel('Features')
 plt.show()
 
 # Scatter plot for actual vs predicted values
@@ -112,5 +115,3 @@ plt.xlabel('Actual Survival Months')
 plt.ylabel('Predicted Survival Months')
 plt.title('Actual vs. Predicted Survival Months')
 plt.show()
-
-

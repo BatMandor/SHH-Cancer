@@ -1,0 +1,181 @@
+﻿Sample ID,Protein Change,Mutation Type,Sex,Overall Survival (Months),Overall Survival Status,Ethnicity Category,Race Category
+TCGA-77-A5G3-01,SHH-PLCB1 Fusion,fusion,Male,150.2449288,0:LIVING,,
+TCGA-FV-A495-01,SHH-KNG1 Fusion,fusion,Female,0.032876352,0:LIVING,Not Hispanic Or Latino,White
+pfg059T,L2Sfs*56,Frame_Shift_Del,Male,,,,
+TCGA-06-5416-01,L12I,Missense_Mutation,Female,6.706775816,0:LIVING,Not Hispanic Or Latino,White
+TCGA-VQ-A8E3-01,V13I,Missense_Mutation,Male,21.7312687,1:DECEASED,,White
+TCGA-AD-6889-01,V18I,Missense_Mutation,Male,83.24292337,1:DECEASED,,Asian
+TCGA-19-1389-01,G27S,Missense_Mutation,Male,4.635565638,1:DECEASED,Not Hispanic Or Latino,White
+SCB-MERiC-0102-D041,G31E,Missense_Mutation,Male,38,0:LIVING,,
+SP99325,R33K,Missense_Mutation,Female,,0:LIVING,,
+TCGA-FI-A2D5-01,H35R,Missense_Mutation,Female,13.84094421,1:DECEASED,Not Hispanic Or Latino,White
+TCGA-52-7809-01,K37Qfs*27,Frame_Shift_Ins,Male,5.457474439,1:DECEASED,Not Hispanic Or Latino,White
+TCGA-AP-A1DV-01,P41H,Missense_Mutation,Female,6.706775816,0:LIVING,Not Hispanic Or Latino,White
+coadread_dfci_2016_3611,P41H,Missense_Mutation,Male,,,,
+TCGA-WS-AB45-01,A43T,Missense_Mutation,Female,70.02662985,0:LIVING,Not Hispanic Or Latino,Black or African American
+MEL-Ma-Mel-48,A43V,Missense_Mutation,Male,,,,
+sclc_ucologne_2015_S01170,Y44C,Missense_Mutation,Male,20,1:DECEASED,Caucasian,
+TCGA-AJ-A2QO-01,K45Sfs*11,Frame_Shift_Del,Female,34.35578788,1:DECEASED,,White
+TCGA-AP-A0LM-01,F47C,Missense_Mutation,Female,27.12299043,0:LIVING,,Black or African American
+sclc_ucologne_2015_S02348,N50S,Missense_Mutation,Male,20,1:DECEASED,Asian,
+TCGA-DI-A1BU-01,V51M,Missense_Mutation,Female,39.28724069,0:LIVING,Not Hispanic Or Latino,White
+TCGA-TN-A7HL-01,K54N,Missense_Mutation,Male,20.35046191,0:LIVING,Not Hispanic Or Latino,White
+Sample61,K54R,Missense_Mutation,Female,32.9,0:LIVING,,
+cscc-ucsf-2021-Sample38,A58T,Missense_Mutation,Male,,,,
+TCGA-AX-A06F-01,A58T,Missense_Mutation,Female,57.46786337,0:LIVING,Not Hispanic Or Latino,White
+coadread_dfci_2016_1742,G60R,Missense_Mutation,Male,,,,
+Sample99,G64E,Missense_Mutation,Male,30.7,0:LIVING,,
+Sample191,K65M,Missense_Mutation,Male,21.93333333,0:LIVING,,
+TCGA-17-Z022-01,S70Y,Missense_Mutation,,,,,
+TCGA-F5-6814-01,F73C,Missense_Mutation,Male,37.18315416,0:LIVING,Not Hispanic Or Latino,White
+SP80615,F73C,Missense_Mutation,Male,,0:LIVING,,
+MEL-Ma-Mel-19,K74E,Missense_Mutation,Female,,,,
+TCGA-EE-A2A1-06,E75K,Missense_Mutation,Male,115.9548937,0:LIVING,Not Hispanic Or Latino,White
+587238,L76P,Missense_Mutation,,,,,
+CSCC-1-T,N79Qfs*9,Frame_Shift_Ins,Male,131,1:DECEASED,,
+TCGA-EO-A22X-01,N81S,Missense_Mutation,Female,57.59936877,0:LIVING,,
+Sample156,P82L,Missense_Mutation,Male,2.9,1:DECEASED,,
+Sample40,P82S,Missense_Mutation,Female,15.6,1:DECEASED,,
+TCGA-AX-A05Z-01,D83N,Missense_Mutation,Female,71.50606569,0:LIVING,Hispanic Or Latino,
+sclc_ucologne_2015_S02289,I85M,Missense_Mutation,Female,79,0:LIVING,,
+TCGA-A5-A1OF-01,I85V,Missense_Mutation,Female,31.98869054,0:LIVING,Hispanic Or Latino,
+TCGA-FR-A7U9-06,D88N,Missense_Mutation,Female,18.77239702,0:LIVING,Not Hispanic Or Latino,White
+TCGA-A5-A0G1-01,E89K,Missense_Mutation,Female,106.8810205,1:DECEASED,Not Hispanic Or Latino,White
+TCGA-BR-8680-01,E90D,Missense_Mutation,Male,31.95581418,0:LIVING,Not Hispanic Or Latino,Asian
+5-VS034-T1,G93R,Missense_Mutation,,,,,
+GLSS-DK-0008-R1,A94V,Missense_Mutation,,,,,
+coadread_dfci_2016_3721,D95N,Missense_Mutation,Female,,,,
+TCGA-EW-A2FV-01,R96Sfs*2,Frame_Shift_Del,Female,25.90656541,0:LIVING,Hispanic Or Latino,White
+BGI-WG10,T99N,Missense_Mutation,Male,15,0:LIVING,Chinese,
+GLSS-SU-0270-R2,X100_splice,Splice_Region,Female,46,1:DECEASED,,
+C3N-00580,X100_splice,Splice_Site,Male,,,Asian,
+TCGA-D3-A2JD-06,D104N,Missense_Mutation,Male,11.86836309,1:DECEASED,Not Hispanic Or Latino,White
+TCGA-EY-A1GD-01,S112L,Missense_Mutation,Female,53.88434099,0:LIVING,Not Hispanic Or Latino,Black or African American
+nsclc_mskcc_2018s60,V113M,Missense_Mutation,Female,,,,
+TCGA-AA-3510-01,M114I,Missense_Mutation,Male,63.97738107,0:LIVING,,
+cscc-ucsf-2021-Sample82,P118S,Missense_Mutation,Male,,,,
+-ALL123,R123W,Missense_Mutation,Female,,,,
+TCGA-AX-A0J0-01,R123W,Missense_Mutation,Female,40.10914949,0:LIVING,Not Hispanic Or Latino,White
+MBC_38,V124M,Missense_Mutation,Female,,,,
+TCGA-EO-A3B0-01,D129N,Missense_Mutation,Female,46.42140908,0:LIVING,,Asian
+5-VS010-T1,E130K,Missense_Mutation,,,,,
+coadread_dfci_2016_1262,E130K,Missense_Mutation,Male,,,,
+CSCC-62-T,H133Y,Missense_Mutation,Male,170,1:DECEASED,,
+SP125713,H134Q,Missense_Mutation,Male,,1:DECEASED,,
+TCGA-BR-8680-01,S138F,Missense_Mutation,Male,31.95581418,0:LIVING,Not Hispanic Or Latino,Asian
+CHC218T,Y141N,Missense_Mutation,Male,,,,
+TCGA-B0-5088-01,E142*,Nonsense_Mutation,Male,18.5093862,1:DECEASED,Not Hispanic Or Latino,White
+TCGA-EY-A5W2-01,E142D,Missense_Mutation,Female,16.96419765,0:LIVING,Not Hispanic Or Latino,Black or African American
+DLBCL-MAYO_DLBCL_234,R144C,Missense_Mutation,Male,,,,
+TCGA-G4-6320-01,R144H,Missense_Mutation,Male,26.43258704,0:LIVING,Not Hispanic Or Latino,White
+CSCC-32-T,R144H,Missense_Mutation,Male,25,1:DECEASED,,
+SP58349,I148L,Missense_Mutation,Male,,1:DECEASED,,
+TCGA-66-2793-01,I148L,Missense_Mutation,Male,10.06016372,1:DECEASED,,
+TCGA-BR-8484-01,T150M,Missense_Mutation,Male,25.18328566,1:DECEASED,Not Hispanic Or Latino,White
+B34,S151F,Missense_Mutation,Male,,,,
+coadread_dfci_2016_1222,R153C,Missense_Mutation,Female,,,,
+CSCC-16-T,R153H,Missense_Mutation,Female,28,0:LIVING,,
+BR-M-083,D154N,Missense_Mutation,Female,,,,
+AMPAC_2264,R155C,Missense_Mutation,,37.99,0:LIVING,,
+DLBCL-RICOVER_1013,M160I,Missense_Mutation,Male,21.1253,1:DECEASED,,
+TCGA-FD-A6TC-01,R163H,Missense_Mutation,Female,6.147877832,0:LIVING,Not Hispanic Or Latino,White
+MO_1209,R163L,Missense_Mutation,Male,,,,Caucasian
+CSCC-29-T,R163S,Missense_Mutation,Male,167,1:DECEASED,,
+TCGA-BS-A0UV-01,A168V,Missense_Mutation,Female,73.24851235,0:LIVING,Not Hispanic Or Latino,Native Hawaiian or Other Pacific Islander
+TCGA-BR-4257-01,A168V,Missense_Mutation,Female,9.6656475,1:DECEASED,Not Hispanic Or Latino,White
+TCGA-XF-AAMF-01,G169Afs*17,Frame_Shift_Del,Male,10.81631982,1:DECEASED,Not Hispanic Or Latino,White
+TCGA-06-0877-01,D171N,Missense_Mutation,,6.706775816,0:LIVING,,
+TCGA-06-0877-01,E176K,Missense_Mutation,,6.706775816,0:LIVING,,
+TCGA-HC-7077-01,K178R,Missense_Mutation,Male,69.53348457,0:LIVING,Not Hispanic Or Latino,Black or African American
+TCGA-DU-5855-01,C183Y,Missense_Mutation,Female,6.805404872,0:LIVING,Not Hispanic Or Latino,White
+C3L-00586,S184L,Missense_Mutation,Female,,,Not-Hispanic or Latino,White
+TCGA-EB-A3Y6-01,A187T,Missense_Mutation,Female,4.142420357,0:LIVING,Not Hispanic Or Latino,White
+TCGA-EB-A6QY-01,E188K,Missense_Mutation,Male,12.55876648,0:LIVING,Not Hispanic Or Latino,White
+TCGA-ER-A19P-06,A192E,Missense_Mutation,Female,162.0804156,1:DECEASED,Not Hispanic Or Latino,White
+coadread_dfci_2016_335135,A192T,Missense_Mutation,Female,,,,
+11CO059,A192V,Missense_Mutation,Female,,,,
+TCGA-UY-A8OB-01,S202L,Missense_Mutation,Male,69.33622645,0:LIVING,Hispanic Or Latino,White
+Mel_BRAFi_02_PRE,L207M,Missense_Mutation,Female,,,,
+X01BR043,E208K,Missense_Mutation,,,,White,
+TCGA-FR-A726-01,G210S,Missense_Mutation,Male,10.02728737,1:DECEASED,Not Hispanic Or Latino,White
+TCGA-D7-A6EY-01,G211D,Missense_Mutation,Female,11.44097051,1:DECEASED,Not Hispanic Or Latino,White
+TCGA-PK-A5HB-01,T212I,Missense_Mutation,Male,42.50912319,0:LIVING,,
+SER-SILU-CC-P0036-PT-01,D217G,Missense_Mutation,Male,185.96,0:LIVING,,
+TCGA-GN-A263-01,G221W,Missense_Mutation,Male,15.3532564,1:DECEASED,Not Hispanic Or Latino,White
+GIS003-HK-pfg181,R223C,Missense_Mutation,Female,,,,
+pfg181T,R223C,Missense_Mutation,Female,,,,
+SER-SILU-CC-P0246-PT-01,R223C,Missense_Mutation,Male,89.82,0:LIVING,,
+coadread_dfci_2016_3643,Q230*,Nonsense_Mutation,Female,,,,
+coadread_dfci_2016_60,G231S,Missense_Mutation,Female,,,,
+587316,R232Q,Missense_Mutation,,,,,
+coadread_dfci_2016_293,Y235C,Missense_Mutation,Female,,,,
+7316-230,F241V,Missense_Mutation,Female,117,0:LIVING,Not Hispanic or Latino,White
+MEL-Ma-Mel-103b,R244C,Missense_Mutation,Female,,,,
+TCGA-FS-A1ZA-06,R244C,Missense_Mutation,Female,27.71476477,1:DECEASED,Not Hispanic Or Latino,White
+SP18121,R244C,Missense_Mutation,Male,,0:LIVING,,
+TCGA-05-4382-01,R244C,Missense_Mutation,Male,19.95594569,0:LIVING,,
+MBC-MBCProject_99CdCOHm-Tumor-SM-CGLF4,D246E,Missense_Mutation,Female,,,,
+TCGA-CD-5800-01,D246G,Missense_Mutation,Female,13.15054082,0:LIVING,Not Hispanic Or Latino,Asian
+38013,A248T,Missense_Mutation,,27.2,1:DECEASED,,
+RP-1532_PCProject_0213_BLOOD_P_v1_Exome_OnPrem,V254M,Missense_Mutation,MALE,,,,
+RP-1532_PCProject_0213_T1_v2_Exome_OnPrem,V254M,Missense_Mutation,MALE,,,,
+PRAD-01115468-Tumor-SM-6B2KE,V254M,Missense_Mutation,Male,9.986859396,1:DECEASED,,White Non-Hispanic
+MBC-MBCProject_99CdCOHm-Tumor-SM-CGLF4,R258L,Missense_Mutation,Female,,,,
+587238,R258W,Missense_Mutation,,,,,
+MO_1328,E259K,Missense_Mutation,Male,,,,Caucasian
+TCGA-K4-A54R-01,E259K,Missense_Mutation,Male,27.68188842,0:LIVING,Not Hispanic Or Latino,White
+TCGA-XF-A9T8-01,E259Q,Missense_Mutation,Male,13.74231515,1:DECEASED,Not Hispanic Or Latino,White
+MO_1442,P260L,Missense_Mutation,Male,,,,Caucasian
+TCGA-2Y-A9GU-01,R261C,Missense_Mutation,Female,63.74724661,0:LIVING,Not Hispanic Or Latino,White
+SP83312,E262K,Missense_Mutation,Female,,1:DECEASED,,
+SER-SILU-CC-P0326-PT-01,A269V,Missense_Mutation,Male,58.97,0:LIVING,,
+coadread_dfci_2016_3658,P276Q,Missense_Mutation,Female,,,,
+36062,G283R,Missense_Mutation,,13.27,1:DECEASED,,
+5-VS034-T1,G292R,Missense_Mutation,,,,,
+SER-SILU-CC-P0283-PT-01,G296R,Missense_Mutation,Female,76.91,0:LIVING,,
+C3L-00586,A298T,Missense_Mutation,Female,,,Not-Hispanic or Latino,White
+7316-2156,F305V,Missense_Mutation,Male,9,0:LIVING,Not Hispanic or Latino,Other/Unavailable/Not Reported
+SER-SILU-CC-P0246-PT-01,R308H,Missense_Mutation,Male,89.82,0:LIVING,,
+SU2C_Lung-SU2C-DFCI-LUAD-1017-Tumor-SM-AOL99,G312R,Missense_Mutation,Female,14.24,0:LIVING,,
+SER-SILU-CC-P0102-PT-01,R321H,Missense_Mutation,Female,92.88,1:DECEASED,,
+coadread_dfci_2016_1212,R325H,Missense_Mutation,Female,,,,
+coadread_dfci_2016_3610,V332M,Missense_Mutation,Male,,,,
+01CO014,S334T,Missense_Mutation,Female,31,0:LIVING,,
+5-VS019-T1,T336I,Missense_Mutation,,,,,
+coadread_dfci_2016_280091,S338G,Missense_Mutation,Female,,,,
+05CO041,A344T,Missense_Mutation,Female,30,0:LIVING,,
+TCGA-2Z-A9J1-01,Y345H,Missense_Mutation,Male,75.54985699,0:LIVING,Not Hispanic Or Latino,White
+SP82461,P347S,Missense_Mutation,Male,,0:LIVING,,
+05CO039,G352V,Missense_Mutation,Male,18,1:DECEASED,,
+CHC1209T,L355Sfs*59,Frame_Shift_Del,Male,,,,
+587338,A365T,Missense_Mutation,,,,,
+C3N-00880,S371R,Missense_Mutation,Female,,,,
+SER-SILU-CC-P0440-PT-01,W372R,Missense_Mutation,Female,38.28,0:LIVING,,
+UTUC_8T,R375L,Missense_Mutation,,,,,
+SER-SILU-CC-P0326-PT-01,A383V,Missense_Mutation,Male,58.97,0:LIVING,,
+IBs-2373PNET,A389S,Missense_Mutation,Male,,,,
+JHU-LX101,L390P,Missense_Mutation,,,,,
+JHU-LX101-R,L390P,Missense_Mutation,,,,,
+C3L-00006,A391V,Missense_Mutation,Female,,,Not-Hispanic or Latino,White
+-ALL91,A393V,Missense_Mutation,Male,,,,
+SP82417,D396N,Missense_Mutation,Male,,0:LIVING,,
+TCGA-A6-6780-01,G403S,Missense_Mutation,Male,20.12032745,0:LIVING,Not Hispanic Or Latino,White
+SER-SILU-CC-P0330-PT-01,G411S,Missense_Mutation,Male,57.36,0:LIVING,,
+ESO-859,A417T,Missense_Mutation,Male,,,Caucasian,
+CRUK0009-R1,D422H,Missense_Mutation,Male,,,White-British,
+CRUK0009-R3,D422H,Missense_Mutation,Male,,,White-British,
+TCGA-KK-A59V-01,A423T,Missense_Mutation,Male,113.094651,0:LIVING,,
+TCGA-NH-A5IV-01,P424L,Missense_Mutation,Female,19.331295,0:LIVING,Not Hispanic Or Latino,Black or African American
+TCGA-QK-A6VB-01,A428V,Missense_Mutation,Male,21.07374166,0:LIVING,Not Hispanic Or Latino,White
+CSCC-38-T,H433Y,Missense_Mutation,Male,4,0:LIVING,,
+TCGA-DD-AAD0-01,W434*,Nonsense_Mutation,Female,4.50406023,0:LIVING,Not Hispanic Or Latino,Asian
+C3N-03076,S436W,Missense_Mutation,Male,,,Han,
+TCGA-EE-A181-06,Q441K,Missense_Mutation,Female,33.73113719,1:DECEASED,Not Hispanic Or Latino,White
+TCGA-49-AAR9-01,T444N,Missense_Mutation,Male,8.54785153,1:DECEASED,Not Hispanic Or Latino,Black or African American
+CRUK0020-R1,E450K,Missense_Mutation,Male,,,White-British,
+CRUK0020-R2,E450K,Missense_Mutation,Male,,,White-British,
+CSCC-11-T,G456D,Missense_Mutation,Male,24,1:DECEASED,,
+SER-SILU-CC-P0271-PT-01,A458V,Missense_Mutation,Female,0.03,1:DECEASED,,
+coadread_dfci_2016_335135,A458V,Missense_Mutation,Female,,,,
+MM12T,A458V,Missense_Mutation,Female,,,,
+,,,,,,,

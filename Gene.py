@@ -52,82 +52,83 @@ print(gene_data['Modified Gene Sequence'])
 # %%
 import pandas as pd
 from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.metrics import mean_squared_error, r2_score
 import re
-import numpy as np
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 import matplotlib.pyplot as plt
-import seaborn as sns
+import numpy as np
 
 # Load the datasets
-mutated_file_path = './mutated_dataset.xlsx'
-nonmutated_file_path = './combined_study_clinical_data(2).xlsx'
-mutated_data = pd.read_excel(mutated_file_path, header=0)
-nonmutated_data = pd.read_excel(nonmutated_file_path, header=0)
+mutated_dataset = pd.read_excel('mutated_dataset.xlsx')
+combined_study_data = pd.read_excel('combined_study_clinical_data(2).xlsx')
 
-# Add "Has Mutation" feature and combine the datasets
-mutated_data['Has Mutation'] = 1
-nonmutated_data['Has Mutation'] = 0
-combined_data = pd.concat([mutated_data, nonmutated_data], ignore_index=True)
+# Combine the datasets
+combined_data = pd.concat([mutated_dataset, combined_study_data], ignore_index=True)
+print(combined_data)
+# Select the required features
+selected_features = combined_data[['Sample ID', 'Protein Change', 'Mutation Type', 'Sex', 'Overall Survival (Months)', 'Overall Survival Status']]
 
-# Convert 'Overall Survival Status' from string to numeric
-combined_data['Overall Survival Status'] = combined_data['Overall Survival Status'].map({'0:LIVING': 0, '1:DECEASED': 1})
-
-# Apply the function to extract positions only for the mutated dataset
-def extract_position(protein_change):
-    if pd.isnull(protein_change):
-        return np.nan
-    match = re.match(r'[A-Za-z](\d+)[A-Za-z]', protein_change)
+# Process 'Protein Change' column to identify protein position and frameshift mutations
+def process_protein_change(protein_change):
+    match = re.match(r'([A-Za-z]+)(\d+)([A-Za-z]*)(fs\*\d+)?', protein_change)
     if match:
-        return int(match.group(1))
-    return np.nan
+        position = match.group(2)
+        frameshift = match.group(4) is not None
+        return position, frameshift
+    else:
+        return None, False
 
-combined_data['Protein Change Position'] = combined_data['Protein Change'].apply(extract_position)
+# Extract Protein Position using regex within a lambda function
+selected_features['Protein Position'] = selected_features['Protein Change'].apply(lambda x: re.findall(r'\d+', x)[0] if pd.notnull(x) else None)
+# Filter the data based on 'Mutation Type' to include only specified mutation types
+filtered_data = selected_features[selected_features['Mutation Type'].isin(['Frame_Shift_Del', 'Frame_Shift_Ins', 'Missense_Mutation'])]
 
-# One-hot encoding for categorical columns
-categorical_columns = ['Mutation Type', 'Sex', 'Somatic Status', 'Ethnicity Category', 'Race Category']
-combined_data = pd.get_dummies(combined_data, columns=categorical_columns)
+# If you need to convert 'Mutation Type' into a numerical format for the model, you can use one-hot encoding or factorize
+# Here's an example using pd.get_dummies() for one-hot encoding
+mutation_type_dummies = pd.get_dummies(filtered_data['Mutation Type'], prefix='Mutation_Type')
 
-# Drop rows where 'Overall Survival (Months)' is NaN before defining X and y
-combined_data = combined_data.dropna(subset=['Overall Survival (Months)'])
+# Concatenate the one-hot encoded DataFrame with your filtered_data DataFrame
+filtered_data = pd.concat([filtered_data, mutation_type_dummies], axis=1)
 
-features_to_exclude = ['Sample ID', 'Protein Change', 
-                       'Disease Free (Months)', 'Fraction Genome Altered', 'Progress Free Survival (Months)', 
-                       'Progression Free Status', 'Mutation Count',
-                       'Fraction Genome Altered', 'Start Pos', 'End Pos', 'Ref', 'Var', 
-                       'Genetic Ancestry Label'] 
- # Update or add to this list as necessary
-X = combined_data.drop(features_to_exclude + ['Overall Survival (Months)', 'Overall Survival Status'], axis=1)
-y = combined_data['Overall Survival (Months)']
+# Now 'filtered_data' includes one-hot encoded columns for 'Mutation Type', along with other selected features
 
-# Split, train, and evaluate the model as before
+# Filter the data based on 'Mutation Type'
+filtered_data = selected_features[selected_features['Mutation Type'].isin(['Frame_Shift_Del', 'Frame_Shift_Ins', 'Missense_Mutation'])]
+
+# Convert 'Sex' into numerical values
+filtered_data['Sex'] = filtered_data['Sex'].map({'Male': 0, 'Female': 1})
+
+# Split the data into features (X) and the target variable (y)
+X = filtered_data.drop(['Overall Survival (Months)', 'Overall Survival Status'], axis=1)
+y = filtered_data['Overall Survival (Months)']
+print(X, y)
+# 80-20 train-test split
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-rf = RandomForestRegressor(n_estimators=100, random_state=42)
-rf.fit(X_train, y_train)
+# Assuming 'X_train' and 'y_train' are already defined from the previous code
 
-y_pred = rf.predict(X_test)
-mse = mean_squared_error(y_test, y_pred)
-r2 = r2_score(y_test, y_pred)
-print(f'Mean Squared Error: {mse}')
-print(f'R-squared: {r2}')
+# Train a Random Forest model
+rf_model = RandomForestRegressor(random_state=42)
+rf_model.fit(X_train, y_train)
 
-# Feature Importances
-feature_importances = pd.Series(rf.feature_importances_, index=X.columns).sort_values(ascending=False)
-plt.figure(figsize=(10, 6))
-sns.barplot(x=feature_importances.head(10), y=feature_importances.head(10).index)
-plt.title('Top 10 Feature Importances')
-plt.xlabel('Relative Importance')
-plt.ylabel('Features')
+# Predict survival rates on the training data
+y_pred_train = rf_model.predict(X_train)
+
+# Plot actual vs. predicted survival rates for the training data
+plt.scatter(y_train, y_pred_train)
+plt.xlabel('Actual Survival Rates')
+plt.ylabel('Predicted Survival Rates')
+plt.title('Actual vs. Predicted Survival Rates on Training Data')
+plt.plot([y_train.min(), y_train.max()], [y_train.min(), y_train.max()], 'k--', lw=4)
 plt.show()
 
-# Scatter plot for actual vs predicted values
-plt.figure(figsize=(10, 6))
-plt.scatter(y_test, y_pred, alpha=0.6)
-# plt.plot([y.min(), y.max()], [y.min(), y.max()], 'k--', lw=2)  # Diagonal line representing perfect predictions
-plt.xlabel('Actual Survival Months')
-plt.ylabel('Predicted Survival Months')
-plt.title('Actual vs. Predicted Survival Months')
-plt.show()
+# Calculate and print statistical measurements
+mae = mean_absolute_error(y_train, y_pred_train)
+mse = mean_squared_error(y_train, y_pred_train)
+r2 = r2_score(y_train, y_pred_train)
+
+print(f'Mean Absolute Error (MAE): {mae}')
+print(f'Mean Squared Error (MSE): {mse}')
+print(f'R-squared Value: {r2}')
 
 
 # %%

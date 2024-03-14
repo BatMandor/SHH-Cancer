@@ -65,21 +65,22 @@ combined_study_data = pd.read_excel('combined_study_clinical_data(2).xlsx')
 # Combine the datasets
 combined_data = pd.concat([mutated_dataset, combined_study_data], ignore_index=True)
 print(combined_data)
-# Select the required features
-selected_features = combined_data[['Sample ID', 'Protein Change', 'Mutation Type', 'Sex', 'Overall Survival (Months)', 'Overall Survival Status']]
 
-# Process 'Protein Change' column to identify protein position and frameshift mutations
+# Select the required features, excluding 'Overall Survival Status'
+selected_features = combined_data[['Sample ID', 'Protein Change', 'Mutation Type', 'Sex', 'Overall Survival (Months)']]
+
+# Process 'Protein Change' column to identify protein position
 def process_protein_change(protein_change):
     match = re.match(r'([A-Za-z]+)(\d+)([A-Za-z]*)(fs\*\d+)?', protein_change)
     if match:
         position = match.group(2)
-        frameshift = match.group(4) is not None
-        return position, frameshift
+        return position
     else:
-        return None, False
+        return None
 
 # Extract Protein Position using regex within a lambda function
 selected_features['Protein Position'] = selected_features['Protein Change'].apply(lambda x: re.findall(r'\d+', x)[0] if pd.notnull(x) else None)
+
 # Filter the data based on 'Mutation Type' to include only specified mutation types
 filtered_data = selected_features[selected_features['Mutation Type'].isin(['Frame_Shift_Del', 'Frame_Shift_Ins', 'Missense_Mutation'])]
 
@@ -90,21 +91,18 @@ mutation_type_dummies = pd.get_dummies(filtered_data['Mutation Type'], prefix='M
 # Concatenate the one-hot encoded DataFrame with your filtered_data DataFrame
 filtered_data = pd.concat([filtered_data, mutation_type_dummies], axis=1)
 
-# Now 'filtered_data' includes one-hot encoded columns for 'Mutation Type', along with other selected features
-
-# Filter the data based on 'Mutation Type'
-filtered_data = selected_features[selected_features['Mutation Type'].isin(['Frame_Shift_Del', 'Frame_Shift_Ins', 'Missense_Mutation'])]
-
 # Convert 'Sex' into numerical values
 filtered_data['Sex'] = filtered_data['Sex'].map({'Male': 0, 'Female': 1})
 
-# Split the data into features (X) and the target variable (y)
-X = filtered_data.drop(['Overall Survival (Months)', 'Overall Survival Status'], axis=1)
+# Drop rows with NaNs in 'Overall Survival (Months)' to ensure 'y' contains no NaNs
+filtered_data = filtered_data.dropna(subset=['Overall Survival (Months)'])
+
+# Prepare the feature matrix (X) and target variable (y)
+X = filtered_data.drop(['Sample ID', 'Protein Change', 'Mutation Type', 'Overall Survival (Months)'], axis=1)
 y = filtered_data['Overall Survival (Months)']
-print(X, y)
+
 # 80-20 train-test split
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-# Assuming 'X_train' and 'y_train' are already defined from the previous code
 
 # Train a Random Forest model
 rf_model = RandomForestRegressor(random_state=42)
@@ -130,5 +128,23 @@ print(f'Mean Absolute Error (MAE): {mae}')
 print(f'Mean Squared Error (MSE): {mse}')
 print(f'R-squared Value: {r2}')
 
+# %%
+import seaborn as sns
+
+# Extract feature importances
+importances = rf_model.feature_importances_
+
+# Map these importances to the corresponding feature names
+feature_names = X.columns
+feature_importance_dict = dict(zip(feature_names, importances))
+
+# Create a DataFrame for the feature importances
+importance_df = pd.DataFrame(sorted(feature_importance_dict.items(), key=lambda x: x[1], reverse=True), columns=['Feature', 'Importance'])
+
+# Plot a heatmap for the feature importances
+plt.figure(figsize=(10, 6))
+sns.heatmap(importance_df.set_index('Feature').T, cmap='viridis', annot=True)
+plt.title('Feature Importances Heatmap')
+plt.show()
 
 # %%

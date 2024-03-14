@@ -100,6 +100,7 @@ r2 = r2_score(y_test, y_pred)
 
 # Feature Importances
 feature_importances = pd.Series(rf.feature_importances_, index=X.columns).sort_values(ascending=False)
+feature_importances.to_csv('Mutaion_loc_importance.csv')
 plt.figure(figsize=(10, 6))
 sns.barplot(y=feature_importances.head(10), x=feature_importances.head(10).index)
 plt.title('Top 10 Feature Importances')

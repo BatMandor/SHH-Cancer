@@ -103,7 +103,10 @@ r2 = r2_score(y_test, y_pred)
 
 # Feature Importances
 feature_importances = pd.Series(rf.feature_importances_, index=X.columns).sort_values(ascending=False)
-feature_importances.to_csv('Mutaion_loc_importance.csv')
+dict = {'Locations': X.columns, 'Importance': rf.feature_importances_}
+location_importances = pd.DataFrame(dict)
+print(location_importances)
+location_importances.to_csv('Mutation_loc_importance.csv')
 plt.figure(figsize=(10, 6))
 sns.barplot(y=feature_importances.head(10), x=feature_importances.head(10).index)
 plt.title('Top 10 Feature Importances')
@@ -111,11 +114,11 @@ plt.ylabel('Relative Importance')
 plt.xlabel('Features')
 plt.show()
 
-# Scatter plot for actual vs predicted values
-plt.figure(figsize=(10, 6))
-plt.scatter(y_test, y_pred, alpha=0.6)
-# plt.plot([y.min(), y.max()], [y.min(), y.max()], 'k--', lw=2)  # Diagonal line representing perfect predictions
-plt.xlabel('Actual Survival Months')
-plt.ylabel('Predicted Survival Months')
-plt.title('Actual vs. Predicted Survival Months')
-plt.show()
+# # Scatter plot for actual vs predicted values
+# plt.figure(figsize=(10, 6))
+# plt.scatter(y_test, y_pred, alpha=0.6)
+# # plt.plot([y.min(), y.max()], [y.min(), y.max()], 'k--', lw=2)  # Diagonal line representing perfect predictions
+# plt.xlabel('Actual Survival Months')
+# plt.ylabel('Predicted Survival Months')
+# plt.title('Actual vs. Predicted Survival Months')
+# plt.show()

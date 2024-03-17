@@ -7,6 +7,8 @@ import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
+from sklearn.preprocessing import StandardScaler
+from sklearn.pipeline import Pipeline
 
 # Load and prepare the dataset
 new_file_path = './mutated_dataset.xlsx'
@@ -83,35 +85,48 @@ rf_model.fit(X_train, y_train)
 y_pred_train = rf_model.predict(X_train)
 
 
+# Calculate the statistical measures
+mae = mean_absolute_error(y_train, y_pred_train)
+mse = mean_squared_error(y_train, y_pred_train)
+r2 = r2_score(y_train, y_pred_train)
+r2p = r2*100
 # Plot actual vs. predicted survival rates for the training data
-plt.figure(figsize=(10, 6))
-plt.scatter(y_train, y_pred_train)
-plt.xlabel('Actual Survival Rates')
-plt.ylabel('Predicted Survival Rates')
-plt.title('Actual vs. Predicted Survival Rates on Training Data')
-plt.plot([y_train.min(), y_train.max()], [y_train.min(), y_train.max()], 'k--', lw=4)
+plt.figure(figsize=(12, 8))  # Increased figure size for better visibility on a poster
+scatter_plot = plt.scatter(y_train, y_pred_train, alpha=0.6, label='Regression Model Predictions')  # Label for the scatter plot
+plt.xlabel('Actual Survival Rates (Months)', fontsize=14)
+plt.ylabel('Predicted Survival Rates (Months)', fontsize=14)
+plt.title('Actual vs. Predicted Survival Rates on Training Data', fontsize=16)
+ideal_line, = plt.plot([y_train.min(), y_train.max()], [y_train.min(), y_train.max()], 'k--', lw=4, label='Ideal Prediction Line')  # Label for the ideal line
 
+# Define the text location
 text_location = (0.02, 0.98)
 
-# Use a smaller font size and adjust the alignment
-fontsize = 10
+# Increase font size and adjust the alignment for better readability
+fontsize = 12  # Larger font size for text
 horizontalalignment = 'left'
 verticalalignment = 'top'
 
-# Create a text string with the statistical values
+# Create a text string with the statistical values with a larger font
 stats_str = (f"Mean Absolute Error: {mae:.2f}\n"
              f"Mean Squared Error: {mse:.2f}\n"
-             f"R-squared: {r2:.2f}")
+             f"R-squared: {r2:.5f} = {r2p:.3f}%")
 
 # Add the text to the plot with a semi-transparent background for readability
 plt.text(text_location[0], text_location[1], stats_str, fontsize=fontsize,
          horizontalalignment=horizontalalignment, verticalalignment=verticalalignment,
          transform=plt.gca().transAxes,  # Use the axes coordinates, not data coordinates
-         bbox=dict(boxstyle="round,pad=0.3", facecolor='white', edgecolor='gray', alpha=0.5))
+         bbox=dict(boxstyle="round,pad=0.3", facecolor='white', edgecolor='gray', alpha=0.8))
+
+# Add the legend to the plot
+plt.legend(loc='upper right', fontsize=12)
 
 # Save the figure with a tight layout and display it
 plt.tight_layout()
+plt.grid()
+plt.xlim(left=0)
+plt.ylim(bottom=0)
 plt.show()
+
 
 # Extract feature importances and prepare for the heatmap
 importances = rf_model.feature_importances_
@@ -124,54 +139,86 @@ feature_importance_dict = dict(zip(feature_names, importances))
 sorted_features = sorted(feature_importance_dict.items(), key=lambda x: x[1], reverse=True)
 
 # Update the feature names to remove 'Mutation_Type_' prefix and underscores for better readability
-updated_feature_names = [(re.sub(r'^Mutation_Type_', '', feature).replace('_', ' '), importance) for feature, importance in sorted_features]
+updated_feature_names = [
+    (re.sub(r'^Mutation_Type_', '', feature).replace('_', ' ').replace('Protein Position', 'Mutation Position'), importance) 
+    for feature, importance in sorted_features
+]
 
 # Create a DataFrame for the sorted and updated feature importances
 importance_df = pd.DataFrame(updated_feature_names, columns=['Feature', 'Relative Importance']).set_index('Feature')
 
-# Plot the heatmap with updated labels
-plt.figure(figsize=(10, 6))
-sns.heatmap(importance_df.T, cmap='viridis', annot=True)
-plt.title('Feature Importances')
-plt.xticks(rotation=45)  # Rotate feature names for better readability
+# Plot the heatmap with updated labels and larger annotations
+plt.figure(figsize=(12, 8))  # Increased figure size for a poster
+ax = sns.heatmap(importance_df.T, cmap='viridis', annot=True, annot_kws={"size": 14})  # Larger annotation
+plt.title('Feature Importances', fontsize=16)
+plt.xticks(rotation=45, fontsize=12)  # Rotate feature names for better readability
+plt.yticks(fontsize=12)  # Increase fontsize for yticks
 plt.show()
+
 
 
 #%%
 
-# Define a parameter grid to search for the best combination of parameters
+from sklearn.preprocessing import StandardScaler
+from sklearn.pipeline import Pipeline
+from sklearn.model_selection import GridSearchCV
+
+# Define a pipeline that first scales the features and then applies the random forest
+pipeline = Pipeline([
+    ('scaler', StandardScaler()),
+    ('rf', RandomForestRegressor(random_state=42))
+])
+
+# Parameters of the model
 param_grid = {
-    'n_estimators': [100, 200, 300],
-    'max_features': ['auto', 'sqrt'],
-    'max_depth': [10, 20, 30, None],
-    'min_samples_split': [2, 5, 10],
-    'min_samples_leaf': [1, 2, 4],
-    'bootstrap': [True, False]
+    'rf__max_depth': [10, 20, None],
+    'rf__max_features': ['sqrt', 'log2'],
+    'rf__min_samples_split': [8, 10, 12],
+    'rf__min_samples_leaf': [3, 4, 5],
+    'rf__n_estimators': [100, 200, 300]
 }
 
-# Create the grid search object
-grid_search = GridSearchCV(estimator=RandomForestRegressor(random_state=42), param_grid=param_grid, 
-                           cv=3, n_jobs=-1, verbose=2, scoring='r2')
+# Create a GridSearchCV object
+grid_search = GridSearchCV(estimator=pipeline, param_grid=param_grid, 
+                           cv=3, n_jobs=-1, verbose=2, scoring='neg_mean_squared_error')
 
-# Fit the grid search to the data
+# Fit the model
 grid_search.fit(X_train, y_train)
 
-# Print the best parameters found
-print("Best parameters found: ", grid_search.best_params_)
-
-# Use the best parameters to create a new model
-best_rf_model = RandomForestRegressor(**grid_search.best_params_, random_state=42)
-best_rf_model.fit(X_train, y_train)
+# Print the best parameters and the best score
+print(f'Best parameters found: {grid_search.best_params_}')
+best_model = grid_search.best_estimator_
 
 # Predict using the best model
-best_y_pred_train = best_rf_model.predict(X_train)
+y_pred_train = best_model.predict(X_train)
+y_pred_test = best_model.predict(X_test)
 
-# Evaluate the improved model
-improved_mae = mean_absolute_error(y_train, best_y_pred_train)
-improved_mse = mean_squared_error(y_train, best_y_pred_train)
-improved_r2 = r2_score(y_train, best_y_pred_train)
+# Evaluate the model using R-squared score
+r2_train = best_model.score(X_train, y_train)
+r2_test = best_model.score(X_test, y_test)
+print(f'Improved R-squared Value on Training Data: {r2_train:.2f}')
+print(f'Improved R-squared Value on Test Data: {r2_test:.2f}')
 
-print(f'Improved Mean Absolute Error (MAE): {improved_mae:.2f}')
-print(f'Improved Mean Squared Error (MSE): {improved_mse:.2f}')
-print(f'Improved R-squared Value: {improved_r2:.2f}')
+# Plot actual vs. predicted survival rates for the training data
+plt.figure(figsize=(12, 8))  # Increased figure size for readability in a poster
+plt.scatter(y_train, y_pred_train, label='Training Data')
+plt.scatter(y_test, y_pred_test, label='Test Data', color='r')
+plt.xlabel('Actual Survival Rates', fontsize=14)
+plt.ylabel('Predicted Survival Rates', fontsize=14)
+plt.title('Actual vs. Predicted Survival Rates', fontsize=16)
+plt.plot([y.min(), y.max()], [y.min(), y.max()], 'k--', lw=2)
+plt.legend(fontsize=12)
+
+# Calculate statistical measurements
+mae = mean_absolute_error(y_test, y_pred_test)
+mse = mean_squared_error(y_test, y_pred_test)
+
+# Add statistical values to the graph
+plt.text(0.02, 0.98, f'MAE: {mae:.2f}\nMSE: {mse:.2f}\nR²: {r2_test:.2f}', fontsize=12,
+         verticalalignment='top', horizontalalignment='left', transform=plt.gca().transAxes,
+         bbox=dict(boxstyle='round', facecolor='white', alpha=0.5))
+
+plt.tight_layout()
+plt.show()
+
 # %%

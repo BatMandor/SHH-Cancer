@@ -77,7 +77,7 @@ y = filtered_data['Overall Survival (Months)']
 # 80-20 train-test split
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-# Train a Random Forest model
+# Train Random Forest model
 rf_model = RandomForestRegressor(random_state=42)
 rf_model.fit(X_train, y_train)
 
@@ -91,22 +91,19 @@ mse = mean_squared_error(y_train, y_pred_train)
 r2 = r2_score(y_train, y_pred_train)
 r2p = r2*100
 # Plot actual vs. predicted survival rates for the training data
-plt.figure(figsize=(12, 8))  # Increased figure size for better visibility on a poster
-scatter_plot = plt.scatter(y_train, y_pred_train, alpha=0.6, label='Regression Model Predictions')  # Label for the scatter plot
+plt.figure(figsize=(12, 8), dpi=300)
+scatter_plot = plt.scatter(y_train, y_pred_train, alpha=0.6, label='Regression Model Predictions') 
 plt.xlabel('Actual Survival Rates (Months)', fontsize=14)
 plt.ylabel('Predicted Survival Rates (Months)', fontsize=14)
 plt.title('Actual vs. Predicted Survival Rates on Training Data', fontsize=16)
-ideal_line, = plt.plot([y_train.min(), y_train.max()], [y_train.min(), y_train.max()], 'k--', lw=4, label='Ideal Prediction Line')  # Label for the ideal line
+ideal_line, = plt.plot([y_train.min(), y_train.max()], [y_train.min(), y_train.max()], 'k--', lw=4, label='Ideal Prediction Line')
 
-# Define the text location
 text_location = (0.02, 0.98)
-
-# Increase font size and adjust the alignment for better readability
-fontsize = 12  # Larger font size for text
+fontsize = 12
 horizontalalignment = 'left'
 verticalalignment = 'top'
 
-# Create a text string with the statistical values with a larger font
+# Create a text string with the statistical values
 stats_str = (f"Mean Absolute Error: {mae:.2f}\n"
              f"Mean Squared Error: {mse:.2f}\n"
              f"R-squared: {r2:.5f} = {r2p:.3f}%")
@@ -117,10 +114,7 @@ plt.text(text_location[0], text_location[1], stats_str, fontsize=fontsize,
          transform=plt.gca().transAxes,  # Use the axes coordinates, not data coordinates
          bbox=dict(boxstyle="round,pad=0.3", facecolor='white', edgecolor='gray', alpha=0.8))
 
-# Add the legend to the plot
 plt.legend(loc='upper right', fontsize=12)
-
-# Save the figure with a tight layout and display it
 plt.tight_layout()
 plt.grid()
 plt.xlim(left=0)
@@ -134,11 +128,8 @@ feature_names = X.columns
 
 # Create a dictionary mapping feature names to their importances
 feature_importance_dict = dict(zip(feature_names, importances))
-
 # Sort the features by their importance
 sorted_features = sorted(feature_importance_dict.items(), key=lambda x: x[1], reverse=True)
-
-# Update the feature names to remove 'Mutation_Type_' prefix and underscores for better readability
 updated_feature_names = [
     (re.sub(r'^Mutation_Type_', '', feature).replace('_', ' ').replace('Protein Position', 'Mutation Position'), importance) 
     for feature, importance in sorted_features
@@ -148,11 +139,12 @@ updated_feature_names = [
 importance_df = pd.DataFrame(updated_feature_names, columns=['Feature', 'Relative Importance']).set_index('Feature')
 
 # Plot the heatmap with updated labels and larger annotations
-plt.figure(figsize=(12, 8))  # Increased figure size for a poster
-ax = sns.heatmap(importance_df.T, cmap='viridis', annot=True, annot_kws={"size": 14})  # Larger annotation
+plt.figure(figsize=(12, 8), dpi=300)  # Increased figure size for a poster
+ax = sns.heatmap(importance_df.T, cmap='viridis', annot=True, annot_kws={"size": 14}) 
 plt.title('Feature Importances', fontsize=16)
-plt.xticks(rotation=45, fontsize=12)  # Rotate feature names for better readability
-plt.yticks(fontsize=12)  # Increase fontsize for yticks
+plt.xticks(rotation=45, fontsize=12)
+plt.yticks(fontsize=12)
+plt.xlabel("")
 plt.show()
 
 

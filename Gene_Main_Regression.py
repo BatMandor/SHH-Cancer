@@ -37,7 +37,7 @@ combined_study_data = pd.read_excel('combined_study_clinical_data(2).xlsx')
 
 # Combine the datasets
 combined_data = pd.concat([mutated_dataset, combined_study_data], ignore_index=True)
-print(combined_data)
+# print(combined_data)
 
 # Select the required features, excluding 'Overall Survival Status'
 selected_features = combined_data[['Sample ID', 'Protein Change', 'Mutation Type', 'Sex', 'Overall Survival (Months)']]
@@ -147,70 +147,5 @@ plt.yticks(fontsize=12)
 plt.xlabel("")
 plt.show()
 
-
-
-#%%
-
-from sklearn.preprocessing import StandardScaler
-from sklearn.pipeline import Pipeline
-from sklearn.model_selection import GridSearchCV
-
-# Define a pipeline that first scales the features and then applies the random forest
-pipeline = Pipeline([
-    ('scaler', StandardScaler()),
-    ('rf', RandomForestRegressor(random_state=42))
-])
-
-# Parameters of the model
-param_grid = {
-    'rf__max_depth': [10, 20, None],
-    'rf__max_features': ['sqrt', 'log2'],
-    'rf__min_samples_split': [8, 10, 12],
-    'rf__min_samples_leaf': [3, 4, 5],
-    'rf__n_estimators': [100, 200, 300]
-}
-
-# Create a GridSearchCV object
-grid_search = GridSearchCV(estimator=pipeline, param_grid=param_grid, 
-                           cv=3, n_jobs=-1, verbose=2, scoring='neg_mean_squared_error')
-
-# Fit the model
-grid_search.fit(X_train, y_train)
-
-# Print the best parameters and the best score
-print(f'Best parameters found: {grid_search.best_params_}')
-best_model = grid_search.best_estimator_
-
-# Predict using the best model
-y_pred_train = best_model.predict(X_train)
-y_pred_test = best_model.predict(X_test)
-
-# Evaluate the model using R-squared score
-r2_train = best_model.score(X_train, y_train)
-r2_test = best_model.score(X_test, y_test)
-print(f'Improved R-squared Value on Training Data: {r2_train:.2f}')
-print(f'Improved R-squared Value on Test Data: {r2_test:.2f}')
-
-# Plot actual vs. predicted survival rates for the training data
-plt.figure(figsize=(12, 8))  # Increased figure size for readability in a poster
-plt.scatter(y_train, y_pred_train, label='Training Data')
-plt.scatter(y_test, y_pred_test, label='Test Data', color='r')
-plt.xlabel('Actual Survival Rates', fontsize=14)
-plt.ylabel('Predicted Survival Rates', fontsize=14)
-plt.title('Actual vs. Predicted Survival Rates', fontsize=16)
-plt.plot([y.min(), y.max()], [y.min(), y.max()], 'k--', lw=2)
-plt.legend(fontsize=12)
-
-# Calculate statistical measurements
-mae = mean_absolute_error(y_test, y_pred_test)
-mse = mean_squared_error(y_test, y_pred_test)
-
-# Add statistical values to the graph
-plt.text(0.02, 0.98, f'MAE: {mae:.2f}\nMSE: {mse:.2f}\nR²: {r2_test:.2f}', fontsize=12,
-         verticalalignment='top', horizontalalignment='left', transform=plt.gca().transAxes,
-         bbox=dict(boxstyle='round', facecolor='white', alpha=0.5))
-
-plt.tight_layout()
-plt.show()
 
 # %%
